@@ -60,11 +60,13 @@
         ========================================== */
         .info-section { padding: 100px 20px; text-align: center; }
         .section-inner { max-width: 800px; margin: 0 auto; }
-        .price-inner { max-width: 1100px; margin: 0 auto; }
+        .wide-inner { max-width: 1100px; margin: 0 auto; }
         .section-title { font-size: 32px; font-weight: bold; margin-bottom: 40px; letter-spacing: 2px; }
         .bg-light { background-color: #fafafa; }
 
-        /* About */
+        /* ==========================================
+           4. About セクション
+        ========================================== */
         .about-icon { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid #eee; }
         .about-name { font-size: 24px; font-weight: bold; margin: 0 0 15px 0; }
         .about-desc { font-size: 16px; line-height: 1.8; color: #555; text-align: left; max-width: 600px; margin: 0 auto; }
@@ -72,7 +74,37 @@
         .social-links a { text-decoration: none; color: #333; font-weight: bold; border: 1px solid #ccc; padding: 10px 25px; border-radius: 30px; transition: 0.2s; font-size: 14px; }
         .social-links a:hover { background-color: #333; color: #fff; border-color: #333; }
 
-        /* Price */
+        /* ==========================================
+           5. Gallery セクション（今回追加した一覧表）
+        ========================================== */
+        .works-grid { 
+            display: grid; 
+            /* 画面幅に合わせて自動で列数を調整。1つのカードの最小幅は220px */
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 25px; 
+            margin-top: 40px; 
+        }
+        .work-card { 
+            background: #fff; border-radius: 8px; overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #eee; text-align: left; 
+        }
+        .work-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .work-card-img { 
+            width: 100%; 
+            aspect-ratio: 16 / 9; /* 横長の16:9比率で綺麗にトリミング */
+            object-fit: cover; /* はみ出た部分をカット */
+            display: block; border-bottom: 1px solid #eee; 
+        }
+        .work-card-info { padding: 15px; }
+        .work-card-title { 
+            font-size: 14px; font-weight: bold; color: #333; margin: 0; 
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; 
+        }
+
+        /* ==========================================
+           6. Price セクション
+        ========================================== */
         .price-note { color: #777; font-size: 14px; margin-bottom: 40px; }
         .pricing-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .pricing-card { background: #ffffff; border-radius: 8px; padding: 30px 20px; width: 240px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; text-align: left; border: 1px solid #eee; }
@@ -81,7 +113,9 @@
         .pricing-price { font-size: 24px; font-weight: bold; margin: 15px 0; color: #111; text-align: center; }
         .pricing-desc { font-size: 14px; line-height: 1.6; color: #555; margin: 0; }
 
-        /* Contact */
+        /* ==========================================
+           7. Contact セクション
+        ========================================== */
         .contact-text { font-size: 16px; line-height: 1.8; color: #555; margin-bottom: 30px; }
         .contact-btn { display: inline-block; background-color: #333; color: #fff; text-decoration: none; font-weight: bold; padding: 15px 40px; border-radius: 30px; font-size: 16px; transition: 0.2s; }
         .contact-btn:hover { background-color: #555; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
@@ -89,7 +123,7 @@
         footer { text-align: center; padding: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
 
         /* ==========================================
-           4. モーダル
+           8. モーダル
         ========================================== */
         .modal-overlay { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); opacity: 0; transition: opacity 0.3s ease; justify-content: center; align-items: center; }
         .modal-overlay.show { display: flex; opacity: 1; }
@@ -117,8 +151,9 @@
     <header>
         <div class="logo">KoZakana</div>
         <div class="nav-links">
-            <a href="#hero-section">Works</a>
+            <a href="#hero-section">Top</a>
             <a href="#about-section">About</a>
+            <a href="#gallery-section">Gallery</a>
             <a href="#price-section">Price</a>
             <a href="#contact-section">Contact</a>
         </div>
@@ -146,8 +181,14 @@
         </div>
     </section>
 
-    <section id="price-section" class="info-section bg-light">
-        <div class="price-inner">
+    <section id="gallery-section" class="info-section bg-light">
+        <div class="wide-inner">
+            <h2 class="section-title">Gallery</h2>
+            <div class="works-grid" id="works-grid"></div>
+        </div>
+    </section>
+    <section id="price-section" class="info-section">
+        <div class="wide-inner">
             <h2 class="section-title">Price</h2>
             <p class="price-note">※目安の料金となります。描き込み量などにより変動しますので、まずはお気軽にご相談ください。</p>
             
@@ -172,7 +213,7 @@
         </div>
     </section>
 
-    <section id="contact-section" class="info-section">
+    <section id="contact-section" class="info-section bg-light">
         <div class="section-inner">
             <h2 class="section-title">Contact</h2>
             <p class="contact-text">
@@ -199,33 +240,67 @@
     <script>
         // ==========================================
         // 【作品データ管理】
-        // ここに小サカナ様の作品パスを追加していきます
         // ==========================================
         const imagesData = [
-            { src: 'https://picsum.photos/400/500?random=1', width: 250, title: '作品タイトル 1', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/600/400?random=1', width: 250, title: '作品タイトル 1', memo: '作品の解説文をここに記入します。' },
             { src: 'https://picsum.photos/400/500?random=2', width: 250, title: '作品タイトル 2', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=3', width: 250, title: '作品タイトル 3', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=4', width: 250, title: '作品タイトル 4', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=5', width: 250, title: '作品タイトル 5', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=6', width: 250, title: '作品タイトル 6', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=7', width: 250, title: '作品タイトル 7', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=8', width: 250, title: '作品タイトル 8', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/500/500?random=3', width: 250, title: '作品タイトル 3', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/800/600?random=4', width: 250, title: 'とても長いタイトルの場合は自動で2行でカットされるかのテスト用作品', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/400/400?random=5', width: 250, title: '作品タイトル 5', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/400/600?random=6', width: 250, title: '作品タイトル 6', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/600/400?random=7', width: 250, title: '作品タイトル 7', memo: '作品の解説文をここに記入します。' },
+            { src: 'https://picsum.photos/500/500?random=8', width: 250, title: '作品タイトル 8', memo: '作品の解説文をここに記入します。' },
             { src: 'https://picsum.photos/400/500?random=9', width: 250, title: '作品タイトル 9', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=10', width: 250, title: '作品タイトル 10', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=11', width: 250, title: '作品タイトル 11', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=12', width: 250, title: '作品タイトル 12', memo: '作品の解説文をここに記入します。' }
+            { src: 'https://picsum.photos/700/500?random=10', width: 250, title: '作品タイトル 10', memo: '作品の解説文をここに記入します。' }
         ];
 
         // ==========================================
-        // 【メインシステム】
+        // 【Gallery一覧の自動生成処理】
+        // ==========================================
+        const worksGrid = document.getElementById('works-grid');
+        const workModal = document.getElementById('work-modal');
+
+        imagesData.forEach((data) => {
+            // カードの枠
+            const card = document.createElement('div');
+            card.className = 'work-card';
+            
+            // カードをクリックした時の処理（モーダルを開く）
+            card.onclick = function() {
+                document.getElementById('modal-img').src = data.src;
+                document.getElementById('modal-title').textContent = data.title;
+                document.getElementById('modal-memo').textContent = data.memo;
+                workModal.classList.add('show');
+            };
+
+            // サムネイル画像
+            const img = document.createElement('img');
+            img.src = data.src;
+            img.className = 'work-card-img';
+
+            // 情報エリア（タイトル）
+            const info = document.createElement('div');
+            info.className = 'work-card-info';
+            const title = document.createElement('p');
+            title.className = 'work-card-title';
+            title.textContent = data.title;
+
+            info.appendChild(title);
+            card.appendChild(img);
+            card.appendChild(info);
+
+            // グリッドに追加
+            worksGrid.appendChild(card);
+        });
+
+        // ==========================================
+        // 【Heroセクションの8枚ランダム表示＆入れ替え】
         // ==========================================
         const maxDisplay = 8;
         let activeIndices = [];
         let activeSlots = [];
-
         const gallery = document.getElementById('gallery');
         const heroSection = document.getElementById('hero-section');
-        const workModal = document.getElementById('work-modal');
         let areaWidth = heroSection.clientWidth;
         let areaHeight = heroSection.clientHeight;
 
@@ -243,7 +318,7 @@
             return available[Math.floor(Math.random() * available.length)];
         }
 
-        // 初期配置
+        // 浮遊要素の初期配置
         for (let i = 0; i < maxDisplay; i++) {
             let index = getUnusedIndex();
             activeIndices.push(index);
@@ -277,7 +352,7 @@
             activeSlots.push(div);
         }
 
-        // 入れ替え
+        // 浮遊要素の入れ替え
         setInterval(() => {
             if (imagesData.length <= maxDisplay) return;
 
@@ -305,6 +380,7 @@
 
         }, 5000);
 
+        // モーダル閉じる処理
         document.getElementById('close-work').onclick = function() { workModal.classList.remove('show'); };
         window.onclick = function(event) {
             if (event.target === workModal) { workModal.classList.remove('show'); }
