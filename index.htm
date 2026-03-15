@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* ==========================================
+           1. ベース設定
+        ========================================== */
+        html { scroll-behavior: smooth; }
+        
+        body {
+            margin: 0; padding: 0; width: 100vw; overflow-x: hidden;
+            background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #333;
+        }
+
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center; z-index: 2000;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(5px);
+        }
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
+        
+        .nav-links a { 
+            margin-left: 20px; text-decoration: none; color: #333; font-size: 14px; font-weight: bold; cursor: pointer;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #888; }
+
+        /* ==========================================
+           2. ファーストビュー（浮かぶイラスト）
+        ========================================== */
+        #hero-section {
+            position: relative; width: 100vw; height: 100vh; overflow: hidden;
+        }
+
+        .bg-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 25vw; font-weight: bold; color: #f9f9f9; z-index: 1; pointer-events: none; white-space: nowrap;
+        }
+
+        .image-item { 
+            position: absolute; z-index: 10; cursor: pointer; 
+            opacity: 1; 
+            transition: transform 0.3s ease, opacity 1.5s ease-in-out; 
+        }
+        .image-item:hover { transform: scale(1.05) !important; z-index: 1000 !important; }
+        .image-item img { display: block; width: 100%; height: auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-radius: 4px; }
+
+        @keyframes float-anim {
+            0% { margin-top: 0px; }
+            50% { margin-top: -15px; }
+            100% { margin-top: 0px; }
+        }
+
+        /* ==========================================
+           3. 共通セクション設定
+        ========================================== */
+        .info-section { padding: 100px 20px; text-align: center; }
+        .section-inner { max-width: 800px; margin: 0 auto; }
+        .price-inner { max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: 32px; font-weight: bold; margin-bottom: 40px; letter-spacing: 2px; }
+        .bg-light { background-color: #fafafa; }
+
+        /* About */
+        .about-icon { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
+        .about-name { font-size: 24px; font-weight: bold; margin: 0 0 15px 0; }
+        .about-desc { font-size: 16px; line-height: 1.8; color: #555; text-align: left; max-width: 600px; margin: 0 auto; }
+        .social-links { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .social-links a { text-decoration: none; color: #333; font-weight: bold; border: 1px solid #ccc; padding: 10px 20px; border-radius: 30px; transition: 0.2s; }
+        .social-links a:hover { background-color: #333; color: #fff; }
+
+        /* Price */
+        .price-note { color: #777; font-size: 14px; margin-bottom: 40px; }
+        .pricing-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .pricing-card { background: #ffffff; border-radius: 8px; padding: 30px 20px; width: 240px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; text-align: left; border: 1px solid #eee; }
+        .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .pricing-card h3 { margin: 0 0 10px 0; font-size: 18px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; text-align: center; }
+        .pricing-price { font-size: 24px; font-weight: bold; margin: 15px 0; color: #111; text-align: center; }
+        .pricing-desc { font-size: 14px; line-height: 1.6; color: #555; margin: 0; }
+
+        /* Contact */
+        .contact-text { font-size: 16px; line-height: 1.8; color: #555; margin-bottom: 30px; }
+        .contact-btn { display: inline-block; background-color: #333; color: #fff; text-decoration: none; font-weight: bold; padding: 15px 40px; border-radius: 30px; font-size: 16px; transition: 0.2s; }
+        .contact-btn:hover { background-color: #555; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        footer { text-align: center; padding: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
+
+        /* ==========================================
+           4. モーダル
+        ========================================== */
+        .modal-overlay { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); opacity: 0; transition: opacity 0.3s ease; justify-content: center; align-items: center; }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .close-btn { position: absolute; top: 20px; right: 40px; color: #ffffff; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.2s; z-index: 10000; }
+        .close-btn:hover { color: #cccccc; }
+        .work-content { display: flex; background-color: #ffffff; border-radius: 8px; overflow: hidden; width: 90%; max-width: 900px; max-height: 85vh; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.show .work-content { transform: scale(1); }
+        .work-image-box { flex: 1; background-color: #f8f8f8; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        #modal-img { width: 100%; height: 100%; object-fit: contain; }
+        .work-text-box { width: 320px; padding: 40px 30px; box-sizing: border-box; overflow-y: auto; color: #333; }
+        #modal-title { margin: 0 0 15px 0; font-size: 22px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        #modal-memo { margin: 0; font-size: 14px; line-height: 1.8; color: #555; }
+
+        @media (max-width: 768px) {
+            .work-content { flex-direction: column; }
+            .work-image-box { height: 50vh; }
+            .work-text-box { width: 100%; padding: 20px; }
+            header { padding: 15px 20px; }
+            .pricing-card { width: 100%; max-width: 300px; } 
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">LOGO</div>
+        <div class="nav-links">
+            <a href="#hero-section">Works</a>
+            <a href="#about-section">About</a>
+            <a href="#price-section">Price</a>
+            <a href="#contact-section">Contact</a>
+        </div>
+    </header>
+
+    <section id="hero-section">
+        <div class="bg-text">P.O.R.T</div>
+        <div id="gallery"></div>
+    </section>
+
+    <section id="about-section" class="info-section">
+        <div class="section-inner">
+            <h2 class="section-title">About</h2>
+            <img src="https://picsum.photos/200/200?random=about" alt="Profile" class="about-icon">
+            <h3 class="about-name">クリエイター名</h3>
+            <p class="about-desc">
+                ここに自己紹介文を書きます。イラストレーター、デザイナーとして活動中。サイバーパンクやポップな配色のイラストを得意としています。<br><br>
+                日常のふとした瞬間を切り取った作品づくりを心がけています。個人・法人問わず、イラスト制作やキャラクターデザインのお仕事を承っております。
+            </p>
+            <div class="social-links">
+                <a href="#" target="_blank">Twitter (X)</a>
+                <a href="#" target="_blank">Pixiv</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="price-section" class="info-section bg-light">
+        <div class="price-inner">
+            <h2 class="section-title">Price</h2>
+            <p class="price-note">※目安の料金となります。背景の描き込み量などにより変動しますので、まずはお気軽にご相談ください。</p>
+            
+            <div class="pricing-container">
+                <div class="pricing-card">
+                    <h3>SNSアイコン制作</h3><div class="pricing-price">¥10,000〜</div>
+                    <p class="pricing-desc">SNS等で使用できるアイコンを制作します。<br>・バストアップのみ<br>・背景：単色または透過<br>・納期：約1週間</p>
+                </div>
+                <div class="pricing-card">
+                    <h3>SDキャラ制作</h3><div class="pricing-price">¥15,000〜</div>
+                    <p class="pricing-desc">デフォルメされたミニキャラを制作します。<br>・グッズ制作等に最適<br>・背景：単色または透過<br>・納期：約2週間</p>
+                </div>
+                <div class="pricing-card">
+                    <h3>キャラクターデザイン</h3><div class="pricing-price">¥30,000〜</div>
+                    <p class="pricing-desc">VTuberやゲーム用の立ち絵などをデザインします。<br>・全身立ち絵1点<br>・三面図は別途ご相談<br>・納期：約3週間</p>
+                </div>
+                <div class="pricing-card">
+                    <h3>一枚絵・キービジュアル</h3><div class="pricing-price">¥50,000〜</div>
+                    <p class="pricing-desc">動画サムネイルやキービジュアル等を制作します。<br>・背景込みのフルカラー<br>・複雑さにより変動<br>・納期：約1ヶ月</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section" class="info-section">
+        <div class="section-inner">
+            <h2 class="section-title">Contact</h2>
+            <p class="contact-text">
+                お仕事のご依頼、ご相談は以下のフォームよりお願いいたします。<br>
+                通常、3営業日以内にご返信させていただきます。
+            </p>
+            <a href="https://form.run/@kusunokicraft-FUUsXs00FrIhm1ciREyo" target="_blank" rel="noopener noreferrer" class="contact-btn">お問い合わせフォームへ</a>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 クリエイター名 All Rights Reserved.</footer>
+
+    <div id="work-modal" class="modal-overlay">
+        <span class="close-btn" id="close-work">&times;</span>
+        <div class="work-content">
+            <div class="work-image-box"><img id="modal-img" src="" alt="拡大画像"></div>
+            <div class="work-text-box">
+                <h2 id="modal-title">タイトル</h2>
+                <p id="modal-memo">メモ</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 【作品データ管理】
+        // ==========================================
+        const imagesData = [
+            { src: 'https://picsum.photos/400/500?random=1', width: 250, title: '作品タイトル 1', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=2', width: 250, title: '作品タイトル 2', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=3', width: 250, title: '作品タイトル 3', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=4', width: 250, title: '作品タイトル 4', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=5', width: 250, title: '作品タイトル 5', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=6', width: 250, title: '作品タイトル 6', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=7', width: 250, title: '作品タイトル 7', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=8', width: 250, title: '作品タイトル 8', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=9', width: 250, title: '作品タイトル 9', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=10', width: 250, title: '作品タイトル 10', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=11', width: 250, title: '作品タイトル 11', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=12', width: 250, title: '作品タイトル 12', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=13', width: 250, title: '作品タイトル 13', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=14', width: 250, title: '作品タイトル 14', memo: '作品の解説やこだわりポイントを記載します。' },
+            { src: 'https://picsum.photos/400/500?random=15', width: 250, title: '作品タイトル 15', memo: '作品の解説やこだわりポイントを記載します。' }
+        ];
+
+        // ==========================================
+        // 【8枚ランダム表示＆入れ替えシステム】
+        // ==========================================
+        const maxDisplay = 8;
+        let activeIndices = [];
+        let activeSlots = [];
+
+        const gallery = document.getElementById('gallery');
+        const heroSection = document.getElementById('hero-section');
+        const workModal = document.getElementById('work-modal');
+        const areaWidth = heroSection.clientWidth;
+        const areaHeight = heroSection.clientHeight;
+
+        function getUnusedIndex() {
+            let available = [];
+            for (let i = 0; i < imagesData.length; i++) {
+                if (!activeIndices.includes(i)) available.push(i);
+            }
+            if (available.length === 0) return Math.floor(Math.random() * imagesData.length);
+            return available[Math.floor(Math.random() * available.length)];
+        }
+
+        for (let i = 0; i < maxDisplay; i++) {
+            let index = getUnusedIndex();
+            activeIndices.push(index);
+            let data = imagesData[index];
+
+            const div = document.createElement('div');
+            div.className = 'image-item';
+            div.style.width = data.width + 'px';
+
+            const img = document.createElement('img');
+            img.src = data.src;
+            div.appendChild(img);
+
+            const maxX = areaWidth - data.width;
+            const maxY = areaHeight - data.width; 
+            div.style.left = (Math.floor(Math.random() * (maxX * 0.8)) + (areaWidth * 0.1)) + 'px';
+            div.style.top = (Math.floor(Math.random() * (maxY * 0.8)) + (areaHeight * 0.1)) + 'px';
+            
+            div.style.animation = `float-anim ${3 + Math.random() * 2}s ease-in-out infinite`;
+            div.style.animationDelay = `${Math.random() * 2}s`;
+
+            div.onclick = function() {
+                const currentData = imagesData[activeIndices[i]];
+                document.getElementById('modal-img').src = currentData.src;
+                document.getElementById('modal-title').textContent = currentData.title;
+                document.getElementById('modal-memo').textContent = currentData.memo;
+                workModal.classList.add('show');
+            };
+
+            gallery.appendChild(div);
+            activeSlots.push(div);
+        }
+
+        setInterval(() => {
+            if (imagesData.length <= maxDisplay) return;
+
+            const slotIndex = Math.floor(Math.random() * maxDisplay);
+            const slot = activeSlots[slotIndex];
+
+            slot.style.opacity = '0';
+            slot.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                const newIndex = getUnusedIndex();
+                activeIndices[slotIndex] = newIndex;
+                const newData = imagesData[newIndex];
+
+                slot.querySelector('img').src = newData.src;
+
+                const maxX = areaWidth - newData.width;
+                const maxY = areaHeight - newData.width; 
+                slot.style.left = (Math.floor(Math.random() * (maxX * 0.8)) + (areaWidth * 0.1)) + 'px';
+                slot.style.top = (Math.floor(Math.random() * (maxY * 0.8)) + (areaHeight * 0.1)) + 'px';
+
+                slot.style.opacity = '1';
+                slot.style.pointerEvents = 'auto';
+            }, 1500);
+
+        }, 5000);
+
+        document.getElementById('close-work').onclick = function() { workModal.classList.remove('show'); };
+        window.onclick = function(event) {
+            if (event.target === workModal) { workModal.classList.remove('show'); }
+        };
+    </script>
+</body>
+</html>
