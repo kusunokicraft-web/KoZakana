@@ -75,11 +75,10 @@
         .social-links a:hover { background-color: #333; color: #fff; border-color: #333; }
 
         /* ==========================================
-           5. Gallery セクション（今回追加した一覧表）
+           5. Gallery セクション（一覧表）
         ========================================== */
         .works-grid { 
             display: grid; 
-            /* 画面幅に合わせて自動で列数を調整。1つのカードの最小幅は220px */
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
             gap: 25px; 
             margin-top: 40px; 
@@ -92,8 +91,8 @@
         .work-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         .work-card-img { 
             width: 100%; 
-            aspect-ratio: 16 / 9; /* 横長の16:9比率で綺麗にトリミング */
-            object-fit: cover; /* はみ出た部分をカット */
+            aspect-ratio: 16 / 9; 
+            object-fit: cover; 
             display: block; border-bottom: 1px solid #eee; 
         }
         .work-card-info { padding: 15px; }
@@ -114,11 +113,20 @@
         .pricing-desc { font-size: 14px; line-height: 1.6; color: #555; margin: 0; }
 
         /* ==========================================
-           7. Contact セクション
+           7. Contact セクション (Skeb & X)
         ========================================== */
         .contact-text { font-size: 16px; line-height: 1.8; color: #555; margin-bottom: 30px; }
-        .contact-btn { display: inline-block; background-color: #333; color: #fff; text-decoration: none; font-weight: bold; padding: 15px 40px; border-radius: 30px; font-size: 16px; transition: 0.2s; }
-        .contact-btn:hover { background-color: #555; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .contact-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .contact-btn { 
+            display: inline-flex; justify-content: center; align-items: center; 
+            color: #fff; text-decoration: none; font-weight: bold; 
+            padding: 15px 40px; border-radius: 30px; font-size: 16px; transition: 0.2s; min-width: 200px; box-sizing: border-box;
+        }
+        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0.9; }
+        
+        /* ボタンごとの色設定 */
+        .btn-skeb { background-color: #00A6B2; } /* Skeb風カラー */
+        .btn-x { background-color: #000000; } /* Xの黒 */
 
         footer { text-align: center; padding: 30px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
 
@@ -143,6 +151,7 @@
             .work-text-box { width: 100%; padding: 20px; }
             header { padding: 15px 20px; }
             .pricing-card { width: 100%; max-width: 300px; } 
+            .contact-btn { width: 100%; } /* スマホではボタンを横幅いっぱいに */
         }
     </style>
 </head>
@@ -187,6 +196,7 @@
             <div class="works-grid" id="works-grid"></div>
         </div>
     </section>
+
     <section id="price-section" class="info-section">
         <div class="wide-inner">
             <h2 class="section-title">Price</h2>
@@ -194,20 +204,20 @@
             
             <div class="pricing-container">
                 <div class="pricing-card">
-                    <h3>SNSアイコン制作</h3><div class="pricing-price">¥10,000〜</div>
-                    <p class="pricing-desc">SNS等で使用できるアイコン。<br>・バストアップのみ<br>・背景：単色または透過<br>・納期：約1週間</p>
+                    <h3>バストアップ背景なし</h3><div class="pricing-price">¥10,000〜</div>
+                    <p class="pricing-desc">SNSアイコン等に。<br>・バストアップのみ<br>・背景：透過または単色<br>・ご要望に合わせて柔軟に対応いたします</p>
                 </div>
                 <div class="pricing-card">
-                    <h3>SDキャラ制作</h3><div class="pricing-price">¥15,000〜</div>
-                    <p class="pricing-desc">ミニキャラ制作。<br>・グッズ制作等に最適<br>・背景：単色または透過<br>・納期：約2週間</p>
+                    <h3>全身 背景なし</h3><div class="pricing-price">¥20,000〜</div>
+                    <p class="pricing-desc">グッズ制作や立ち絵等に。<br>・全身イラスト1点<br>・背景：透過または単色<br>・詳細な装飾は別途ご相談</p>
                 </div>
                 <div class="pricing-card">
-                    <h3>キャラクターデザイン</h3><div class="pricing-price">¥30,000〜</div>
-                    <p class="pricing-desc">VTuber等の立ち絵。<br>・全身立ち絵1点<br>・三面図は別途ご相談<br>・納期：約3週間</p>
+                    <h3>一枚絵 背景あり</h3><div class="pricing-price">¥30,000〜</div>
+                    <p class="pricing-desc">動画サムネイルや一枚絵に。<br>・背景込みフルカラー<br>・描き込み量により変動<br>・世界観に合わせた背景を描画</p>
                 </div>
                 <div class="pricing-card">
-                    <h3>一枚絵・キービジュアル</h3><div class="pricing-price">¥50,000〜</div>
-                    <p class="pricing-desc">動画用背景や1枚絵。<br>・背景込みフルカラー<br>・描き込みにより変動<br>・納期：約1ヶ月</p>
+                    <h3>キャラクターデザイン</h3><div class="pricing-price">¥50,000〜</div>
+                    <p class="pricing-desc">新規キャラクターの考案。<br>・全身立ち絵1点<br>・三面図等は別途ご相談<br>・VTuberモデル等も対応可能</p>
                 </div>
             </div>
         </div>
@@ -217,13 +227,15 @@
         <div class="section-inner">
             <h2 class="section-title">Contact</h2>
             <p class="contact-text">
-                お仕事のご依頼、ご相談は以下のフォームよりお願いいたします。<br>
-                国内外問わず、心を込めて対応させていただきます。
+                お仕事のご依頼やご相談は、SkebまたはX（Twitter）のDMよりお気軽にご連絡ください。<br>
+                （※スケジュールやご依頼内容によってはお受けできない場合もございます）
             </p>
-            <a href="https://form.run/@kusunokicraft-FUUsXs00FrIhm1ciREyo" target="_blank" rel="noopener noreferrer" class="contact-btn">お問い合わせフォームへ</a>
+            <div class="contact-links">
+                <a href="https://skeb.jp/@wToIhjbADQgA6yZ" target="_blank" rel="noopener noreferrer" class="contact-btn btn-skeb">Skebでリクエスト</a>
+                <a href="https://x.com/wToIhjbADQgA6yZ" target="_blank" rel="noopener noreferrer" class="contact-btn btn-x">X (Twitter) のDMへ</a>
+            </div>
         </div>
     </section>
-
     <footer>&copy; 2026 KoZakana All Rights Reserved.</footer>
 
     <div id="work-modal" class="modal-overlay">
@@ -239,19 +251,21 @@
 
     <script>
         // ==========================================
-        // 【作品データ管理】
+        // 【作品データ管理】仮画像を12枚設定
         // ==========================================
         const imagesData = [
-            { src: 'https://picsum.photos/600/400?random=1', width: 250, title: '作品タイトル 1', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=2', width: 250, title: '作品タイトル 2', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/500/500?random=3', width: 250, title: '作品タイトル 3', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/800/600?random=4', width: 250, title: 'とても長いタイトルの場合は自動で2行でカットされるかのテスト用作品', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/400?random=5', width: 250, title: '作品タイトル 5', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/600?random=6', width: 250, title: '作品タイトル 6', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/600/400?random=7', width: 250, title: '作品タイトル 7', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/500/500?random=8', width: 250, title: '作品タイトル 8', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/400/500?random=9', width: 250, title: '作品タイトル 9', memo: '作品の解説文をここに記入します。' },
-            { src: 'https://picsum.photos/700/500?random=10', width: 250, title: '作品タイトル 10', memo: '作品の解説文をここに記入します。' }
+            { src: 'https://picsum.photos/600/400?random=1', width: 250, title: 'Concept Art - City', memo: '近未来の都市をイメージしたコンセプトアートです。' },
+            { src: 'https://picsum.photos/400/500?random=2', width: 220, title: 'Character Design A', memo: 'RPGの主人公を想定したキャラクターデザイン。' },
+            { src: 'https://picsum.photos/500/500?random=3', width: 280, title: 'SD Character', memo: 'アクリルキーホルダー用のデフォルメイラストです。' },
+            { src: 'https://picsum.photos/800/600?random=4', width: 260, title: 'Key Visual 01', memo: 'イベント用のキービジュアルとして制作しました。' },
+            { src: 'https://picsum.photos/400/400?random=5', width: 210, title: 'SNS Icon', memo: 'TwitterなどのSNSで使用できるアイコンイラスト。' },
+            { src: 'https://picsum.photos/400/600?random=6', width: 240, title: 'VTuber Model', memo: 'Live2D用のパーツ分け立ち絵イラストです。' },
+            { src: 'https://picsum.photos/600/400?random=7', width: 270, title: 'Background Study', memo: '自然の風景を描き込む練習の一環です。' },
+            { src: 'https://picsum.photos/500/500?random=8', width: 230, title: 'Character Design B', memo: 'ファンタジー世界のエルフの魔法使い。' },
+            { src: 'https://picsum.photos/400/500?random=9', width: 200, title: 'Rough Sketch', memo: '制作途中のラフスケッチ。' },
+            { src: 'https://picsum.photos/700/500?random=10', width: 290, title: 'Cyberpunk Girl', memo: 'ネオンの光を意識したサイバーパンク風の一枚。' },
+            { src: 'https://picsum.photos/500/400?random=11', width: 250, title: 'Monster Design', memo: '敵キャラクターのデザイン案。' },
+            { src: 'https://picsum.photos/600/600?random=12', width: 260, title: 'Anniversary Illustration', memo: '活動1周年を記念して描いた一枚絵です。' }
         ];
 
         // ==========================================
@@ -261,11 +275,9 @@
         const workModal = document.getElementById('work-modal');
 
         imagesData.forEach((data) => {
-            // カードの枠
             const card = document.createElement('div');
             card.className = 'work-card';
             
-            // カードをクリックした時の処理（モーダルを開く）
             card.onclick = function() {
                 document.getElementById('modal-img').src = data.src;
                 document.getElementById('modal-title').textContent = data.title;
@@ -273,12 +285,10 @@
                 workModal.classList.add('show');
             };
 
-            // サムネイル画像
             const img = document.createElement('img');
             img.src = data.src;
             img.className = 'work-card-img';
 
-            // 情報エリア（タイトル）
             const info = document.createElement('div');
             info.className = 'work-card-info';
             const title = document.createElement('p');
@@ -289,7 +299,6 @@
             card.appendChild(img);
             card.appendChild(info);
 
-            // グリッドに追加
             worksGrid.appendChild(card);
         });
 
@@ -318,7 +327,7 @@
             return available[Math.floor(Math.random() * available.length)];
         }
 
-        // 浮遊要素の初期配置
+        // 初期配置
         for (let i = 0; i < maxDisplay; i++) {
             let index = getUnusedIndex();
             activeIndices.push(index);
@@ -352,7 +361,7 @@
             activeSlots.push(div);
         }
 
-        // 浮遊要素の入れ替え
+        // 入れ替え
         setInterval(() => {
             if (imagesData.length <= maxDisplay) return;
 
@@ -380,7 +389,7 @@
 
         }, 5000);
 
-        // モーダル閉じる処理
+        // モーダル閉じる
         document.getElementById('close-work').onclick = function() { workModal.classList.remove('show'); };
         window.onclick = function(event) {
             if (event.target === workModal) { workModal.classList.remove('show'); }
